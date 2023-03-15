@@ -20,8 +20,7 @@ impl<'a> Env<'a> {
         )
     }
 
-    fn get_search_results(&self, file: &str) -> Vec<&str> {
-        let q = self.query;
+    fn get_search_results(&self, file: &'a str) -> Vec<&'a str> {
         let lines = file.lines();
         let mut results: Vec<&str> = Vec::with_capacity(4);
 
@@ -39,6 +38,7 @@ fn run(args: &[String]) -> Result<(), Box<dyn error::Error>> {
     let env = Env::from_args(&args)?;
     let file = fs::read_to_string(&env.path)?;
     let results = env.get_search_results(&file);
+
     println!("Found: {:#?}", results);
     Ok(())
 }
