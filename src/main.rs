@@ -20,20 +20,26 @@ impl<'a> Env<'a> {
         )
     }
 
-    fn search(&self, file: &str) {
+    fn get_search_results(&self, file: &str) -> Vec<&str> {
         let q = self.query;
         let lines = file.lines();
+        let mut results: Vec<&str> = Vec::with_capacity(4);
 
         for line in lines {
-            println!("{}", line);
+            if line.contains(self.query) {
+                results.push(line)
+            }
         }
+
+        results
     }
 }
 
 fn run(args: &[String]) -> Result<(), Box<dyn error::Error>> {
     let env = Env::from_args(&args)?;
     let file = fs::read_to_string(&env.path)?;
-    env.search(&file);
+    let results = env.get_search_results(&file);
+    println!("Found: {:#?}", results);
     Ok(())
 }
 
