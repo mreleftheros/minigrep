@@ -1,4 +1,4 @@
-use std::env;
+use std::{env, error, process};
 
 #[derive(Debug)]
 struct Env<'a> {
@@ -21,9 +21,15 @@ impl<'a> Env<'a> {
     }
 }
 
+fn run(args: &[String]) -> Result<(), Box<dyn error::Error>> {
+    let env = Env::from_args(&args)?;
+    Ok(())
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let env = Env::from_args(&args);
-
-    println!("{:?}", env);
+    if let Err(err) = run(&args) {
+        eprintln!("Error: {}", err);
+        process::exit(1);
+    }
 }
