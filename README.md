@@ -1,0 +1,1 @@
+# RUN cargo run [query] [filepath]
