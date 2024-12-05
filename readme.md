@@ -1,3 +1,3 @@
 # minigrep
 
-run with: cargo run -- [path] [query]
+run with: [IGNORE_CASE=1] cargo run -- [path] [query]
